@@ -1803,7 +1803,7 @@
             "signing": "org.gradle.plugins.signing.SigningExtension"
         }
     },
-    ":kotlin-scripting-compiler-plugin": {
+    ":kotlin-scripting-compiler": {
         "conventions": {
             "base": "org.gradle.api.plugins.BasePluginConvention",
             "java": "org.gradle.api.plugins.JavaPluginConvention",
@@ -1843,7 +1843,7 @@
             "signing": "org.gradle.plugins.signing.SigningExtension"
         }
     },
-    ":kotlin-scripting-gradle-plugin": {
+    ":kotlin-scripting-gradle": {
         "conventions": {
             "base": "org.gradle.api.plugins.BasePluginConvention",
             "java": "org.gradle.api.plugins.JavaPluginConvention",
@@ -1886,7 +1886,7 @@
             "signing": "org.gradle.plugins.signing.SigningExtension"
         }
     },
-    ":kotlin-scripting-idea-plugin": {
+    ":kotlin-scripting-idea": {
         "conventions": {
             "base": "org.gradle.api.plugins.BasePluginConvention",
             "java": "org.gradle.api.plugins.JavaPluginConvention"
@@ -4918,7 +4918,7 @@
             "signing": "org.gradle.plugins.signing.SigningExtension"
         }
     },
-    ":kotlin-scripting-gradle-plugin:plugin-marker": {
+    ":kotlin-scripting-gradle:plugin-marker": {
         "conventions": {
             "base": "org.gradle.api.plugins.BasePluginConvention",
             "java": "org.gradle.api.plugins.JavaPluginConvention",
