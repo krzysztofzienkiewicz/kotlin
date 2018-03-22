@@ -128,21 +128,30 @@ fun KtDeclaration.analyzeWithContent(): BindingContext =
 inline fun <reified T> T.analyzeWithContent(): BindingContext where T : KtDeclarationContainer, T : KtElement =
     getResolutionFacade().analyzeWithAllCompilerChecks(listOf(this)).bindingContext
 
-// NB: for statements / expressions, usually should be replaced with analyze(),
-// for declarations, analyzeWithContent() will do what you want.
-@Deprecated(
-    "Use analyzeWithContent() instead, or use just analyze()",
-    ReplaceWith("analyze()")
-)
-fun KtElement.analyzeFully(): BindingContext = getResolutionFacade().analyzeWithAllCompilerChecks(listOf(this)).bindingContext
-
-// This and next function are expected to produce the same result as compiler
-// for the given element and its children (including diagnostics, trace slices, descriptors, etc.)
-// Not recommended to call both of them without real need
-// See also KotlinResolveCache, KotlinResolveDataProvider
+/**
+ * This function is expected to produce the same result as compiler for the whole file content (including diagnostics,
+ * trace slices, descriptors, etc.).
+ *
+ * Not it's not recommended to call this function without real need.
+ *
+ * @ref [KotlinCacheService]
+ * @ref [org.jetbrains.kotlin.idea.caches.resolve.PerFileAnalysisCache]
+ */
 fun KtFile.analyzeWithAllCompilerChecks(vararg extraFiles: KtFile): AnalysisResult =
     KotlinCacheService.getInstance(project).getResolutionFacade(listOf(this) + extraFiles.toList()).analyzeWithAllCompilerChecks(listOf(this))
 
+/**
+ * This function is expected to produce the same result as compiler for the given element and its children (including diagnostics,
+ * trace slices, descriptors, etc.). For some expression element it actually performs analyze for some parent (usually declaration).
+ *
+ * Not it's not recommended to call this function without real need.
+ *
+ * NB: for statements / expressions, usually should be replaced with analyze(),
+ * for declarations, analyzeWithContent() will do what you want.
+ *
+ * @ref [KotlinCacheService]
+ * @ref [org.jetbrains.kotlin.idea.caches.resolve.PerFileAnalysisCache]
+ */
 @Deprecated(
     "Use either KtFile.analyzeWithAllCompilerChecks() or KtElement.analyzeAndGetResult()",
     ReplaceWith("analyzeAndGetResult()")
