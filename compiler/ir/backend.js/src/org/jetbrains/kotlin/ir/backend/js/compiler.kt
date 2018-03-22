@@ -6,11 +6,12 @@
 package org.jetbrains.kotlin.ir.backend.js
 
 import com.intellij.openapi.project.Project
-import org.jetbrains.kotlin.backend.common.lower.LateinitLowering
-import org.jetbrains.kotlin.backend.common.lower.LocalFunctionsLowering
-import org.jetbrains.kotlin.backend.common.lower.PropertiesLowering
+import org.jetbrains.kotlin.backend.common.lower.*
+import org.jetbrains.kotlin.backend.common.runOnFilePostfix
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.IrModuleToJsTransformer
+import org.jetbrains.kotlin.ir.declarations.IrDeclarationOrigin
+import org.jetbrains.kotlin.ir.declarations.IrDeclarationOriginImpl
 import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.util.ExternalDependenciesGenerator
 import org.jetbrains.kotlin.ir.util.dump
@@ -50,5 +51,9 @@ fun compile(
 fun JsIrBackendContext.lower(file: IrFile) {
     LateinitLowering(this, true).lower(file)
     LocalFunctionsLowering(this).lower(file)
+    DefaultArgumentStubGenerator(this).runOnFilePostfix(file)
+    InitializersLowering(this, object : IrDeclarationOriginImpl("CLASS_STATIC_INITIALIZER"){}).runOnFilePostfix(file)
     PropertiesLowering().lower(file)
+
+    println(file.dump())
 }
